@@ -1,0 +1,12 @@
+user_id,country,signup_date
+user_001,US,2024-01-15
+user_002,UK,2024-01-20
+user_003,CA,2024-02-01
+user_004,US,2024-02-10
+user_005,DE,2024-02-15
+user_006,FR,2024-02-20
+user_007,US,2024-03-01
+user_008,UK,2024-03-05
+user_009,CA,2024-03-10
+user_010,US,2024-03-15
+

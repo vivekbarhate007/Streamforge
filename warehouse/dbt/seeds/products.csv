@@ -1,0 +1,12 @@
+product_id,category,name,base_price
+prod_001,Electronics,Wireless Headphones,99.99
+prod_002,Electronics,Smart Watch,249.99
+prod_003,Clothing,Cotton T-Shirt,19.99
+prod_004,Clothing,Jeans,49.99
+prod_005,Books,Python Programming,39.99
+prod_006,Books,Data Engineering Guide,49.99
+prod_007,Home,Coffee Maker,79.99
+prod_008,Home,Desk Lamp,29.99
+prod_009,Sports,Yoga Mat,24.99
+prod_010,Sports,Running Shoes,89.99
+

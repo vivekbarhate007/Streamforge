@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "ts": {"type": "string", "format": "date-time"},
+    "user_id": {"type": "string"},
+    "session_id": {"type": "string"},
+    "event_type": {"type": "string", "enum": ["view", "click", "add_to_cart", "purchase"]},
+    "product_id": {"type": "string"},
+    "price": {"type": "number", "minimum": 0},
+    "quantity": {"type": "integer", "minimum": 0},
+    "metadata": {"type": "object"}
+  },
+  "required": ["ts", "user_id", "event_type"]
+}
+

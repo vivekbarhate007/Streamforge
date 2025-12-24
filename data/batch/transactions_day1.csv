@@ -1,0 +1,12 @@
+tx_id,ts,user_id,product_id,price,quantity,country,channel
+1,2024-03-20 10:15:30,user_001,prod_001,99.99,1,US,web
+2,2024-03-20 11:22:45,user_002,prod_003,19.99,2,UK,mobile
+3,2024-03-20 12:30:15,user_003,prod_005,39.99,1,CA,web
+4,2024-03-20 13:45:20,user_001,prod_007,79.99,1,US,mobile
+5,2024-03-20 14:20:10,user_004,prod_002,249.99,1,US,web
+6,2024-03-20 15:10:35,user_005,prod_009,24.99,1,DE,web
+7,2024-03-20 16:25:50,user_002,prod_004,49.99,1,UK,mobile
+8,2024-03-20 17:40:25,user_006,prod_010,89.99,1,FR,web
+9,2024-03-20 18:15:40,user_007,prod_001,99.99,1,US,mobile
+10,2024-03-20 19:30:55,user_003,prod_006,49.99,1,CA,web
+

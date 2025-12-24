@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: raw
+    database: streamforge
+    schema: public
+    tables:
+      - name: raw_events
+      - name: raw_transactions
+      - name: fact_events
+      - name: fact_transactions
+      - name: dim_users
+      - name: dim_products
+      - name: dim_time
+
