@@ -3,7 +3,6 @@ import time
 import logging
 from prometheus_client import Counter, Histogram, Gauge, generate_latest
 from fastapi import Response
-from functools import wraps
 
 # Prometheus metrics
 REQUEST_COUNT = Counter(
@@ -26,20 +25,20 @@ ACTIVE_CONNECTIONS = Gauge(
 # Structured logging setup
 def setup_logging():
     """Setup structured JSON logging"""
-    import json
     from pythonjsonlogger import jsonlogger
-    
+
     logHandler = logging.StreamHandler()
     formatter = jsonlogger.JsonFormatter(
         '%(asctime)s %(name)s %(levelname)s %(message)s'
     )
     logHandler.setFormatter(formatter)
-    
+
     logger = logging.getLogger()
     logger.addHandler(logHandler)
     logger.setLevel(logging.INFO)
-    
+
     return logger
+
 
 logger = setup_logging()
 
@@ -47,23 +46,23 @@ logger = setup_logging()
 async def metrics_middleware(request, call_next):
     """Middleware to track metrics"""
     start_time = time.time()
-    
+
     try:
         response = await call_next(request)
         duration = time.time() - start_time
-        
+
         # Track metrics
         REQUEST_COUNT.labels(
             method=request.method,
             endpoint=request.url.path,
             status=response.status_code
         ).inc()
-        
+
         REQUEST_DURATION.labels(
             method=request.method,
             endpoint=request.url.path
         ).observe(duration)
-        
+
         # Log request
         logger.info("Request processed", extra={
             "method": request.method,
@@ -71,7 +70,7 @@ async def metrics_middleware(request, call_next):
             "status_code": response.status_code,
             "duration": duration
         })
-        
+
         return response
     except Exception as e:
         duration = time.time() - start_time
@@ -87,4 +86,3 @@ async def metrics_middleware(request, call_next):
 def get_metrics():
     """Get Prometheus metrics"""
     return Response(content=generate_latest(), media_type="text/plain")
-

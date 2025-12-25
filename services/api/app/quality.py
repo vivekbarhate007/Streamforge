@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import text
 from datetime import datetime
 from app.schemas import QualityCheck
 from typing import List
@@ -23,4 +22,3 @@ def get_quality_history(db: Session, limit: int = 10) -> List[QualityCheck]:
     """Get quality check history"""
     # In a real implementation, this would query stored GE results
     return [get_latest_quality_check(db)]
-

@@ -1,5 +1,4 @@
 from pydantic_settings import BaseSettings
-from typing import Optional
 
 
 class Settings(BaseSettings):
@@ -9,22 +8,21 @@ class Settings(BaseSettings):
     POSTGRES_USER: str = "streamforge"
     POSTGRES_PASSWORD: str = "streamforge123"
     POSTGRES_DB: str = "streamforge"
-    
+
     # Auth
     SECRET_KEY: str = "your-secret-key-change-in-production"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     DEFAULT_ADMIN_USER: str = "admin"
     DEFAULT_ADMIN_PASSWORD: str = "admin"
-    
+
     @property
     def database_url(self) -> str:
         return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
-    
+
     class Config:
         env_file = ".env"
         case_sensitive = True
 
 
 settings = Settings()
-

@@ -1,11 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException, status, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from datetime import timedelta
-from typing import Optional
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -37,10 +35,12 @@ app.add_middleware(
 # Compression middleware
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
+
 # Monitoring middleware
 @app.middleware("http")
 async def monitoring_middleware(request: Request, call_next):
     return await metrics_middleware(request, call_next)
+
 
 # Security headers middleware
 @app.middleware("http")
@@ -66,10 +66,12 @@ async def health_check():
     """Health check endpoint"""
     return {"status": "healthy"}
 
+
 @app.get("/health/live")
 async def liveness():
     """Kubernetes liveness probe"""
     return {"status": "alive"}
+
 
 @app.get("/health/ready")
 async def readiness(db: Session = Depends(get_db)):
@@ -80,6 +82,7 @@ async def readiness(db: Session = Depends(get_db)):
     except Exception as e:
         logger.error(f"Readiness check failed: {e}")
         raise HTTPException(status_code=503, detail="Service not ready")
+
 
 @app.get("/metrics")
 async def prometheus_metrics():
@@ -92,10 +95,10 @@ async def prometheus_metrics():
 async def login(request: Request, credentials: LoginRequest):
     """
     Login endpoint
-    
+
     - **username**: Username for authentication
     - **password**: Password for authentication
-    
+
     Returns a JWT access token for authenticated requests.
     """
     user = authenticate_user(credentials.username, credentials.password)
@@ -121,7 +124,7 @@ async def get_overview(
 ):
     """
     Get overview metrics
-    
+
     Returns key performance indicators:
     - Total users
     - Total events
@@ -143,9 +146,9 @@ async def get_events_timeseries(
 ):
     """
     Get events time series data
-    
+
     - **hours**: Number of hours to look back (default: 24, max: 168)
-    
+
     Returns hourly aggregated event counts as time series data.
     """
     return {"data": metrics.get_events_timeseries(db, hours)}
@@ -161,9 +164,9 @@ async def get_revenue_timeseries(
 ):
     """
     Get revenue time series data
-    
+
     - **days**: Number of days to look back (default: 30, max: 365)
-    
+
     Returns daily aggregated revenue totals as time series data.
     """
     return {"data": metrics.get_revenue_timeseries(db, days)}
@@ -179,9 +182,9 @@ async def get_top_products(
 ):
     """
     Get top products by revenue
-    
+
     - **limit**: Number of top products to return (default: 10, max: 100)
-    
+
     Returns products sorted by revenue with quantity and order counts.
     """
     return {"products": metrics.get_top_products(db, limit)}
@@ -194,7 +197,7 @@ async def get_latest_quality(
 ):
     """
     Get latest quality check results
-    
+
     Returns the most recent Great Expectations checkpoint results including:
     - Checkpoint name
     - Run time
@@ -212,7 +215,7 @@ async def get_pipeline_health(
 ):
     """
     Get pipeline health status
-    
+
     Returns comprehensive health information:
     - Pipeline statuses (streaming, batch)
     - Last run timestamps
@@ -231,4 +234,3 @@ async def root():
         "version": "1.0.0",
         "docs": "/docs"
     }
-

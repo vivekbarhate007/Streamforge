@@ -5,7 +5,7 @@ from app.db import Base
 
 class RawEvent(Base):
     __tablename__ = "raw_events"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     ts = Column(DateTime, nullable=False)
     user_id = Column(String(50), nullable=False)
@@ -20,7 +20,7 @@ class RawEvent(Base):
 
 class RawTransaction(Base):
     __tablename__ = "raw_transactions"
-    
+
     tx_id = Column(Integer, primary_key=True, index=True)
     ts = Column(DateTime, nullable=False)
     user_id = Column(String(50), nullable=False)
@@ -34,7 +34,7 @@ class RawTransaction(Base):
 
 class FactEvent(Base):
     __tablename__ = "fact_events"
-    
+
     event_id = Column(Integer, primary_key=True, index=True)
     ts = Column(DateTime, nullable=False)
     user_id = Column(String(50), nullable=False)
@@ -49,7 +49,7 @@ class FactEvent(Base):
 
 class FactTransaction(Base):
     __tablename__ = "fact_transactions"
-    
+
     tx_id = Column(Integer, primary_key=True, index=True)
     ts = Column(DateTime, nullable=False)
     user_id = Column(String(50), nullable=False)
@@ -65,7 +65,7 @@ class FactTransaction(Base):
 
 class MetricsDailyKPI(Base):
     __tablename__ = "metrics_daily_kpis"
-    
+
     date = Column(Date, primary_key=True)
     dau = Column(Integer, default=0)
     events = Column(Integer, default=0)
@@ -77,7 +77,7 @@ class MetricsDailyKPI(Base):
 
 class PipelineHealth(Base):
     __tablename__ = "pipeline_health"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     pipeline_name = Column(String(100), nullable=False)
     last_run_ts = Column(DateTime)
@@ -85,4 +85,3 @@ class PipelineHealth(Base):
     rows_processed = Column(Integer)
     error_message = Column(Text)
     created_at = Column(DateTime, server_default=func.now())
-

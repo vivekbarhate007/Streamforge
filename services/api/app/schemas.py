@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import datetime, date
+from datetime import datetime
 from typing import Optional, List
 from decimal import Decimal
 
@@ -70,4 +70,3 @@ class HealthStatus(BaseModel):
     table_counts: dict
     last_dbt_run: Optional[datetime]
     last_ge_run: Optional[datetime]
-

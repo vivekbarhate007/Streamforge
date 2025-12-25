@@ -41,4 +41,3 @@ def wait_for_db(max_retries=30):
                 print(f"Failed to connect to database: {e}")
                 return False
     return False
-
