@@ -22,8 +22,11 @@ TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_eng
 def setup_database():
     """Create all database tables before tests run"""
     # Import all models to ensure they're registered with Base
-    from app import models  # noqa: F401
-    
+    from app.models import (  # noqa: F401
+        RawEvent, RawTransaction, FactEvent, FactTransaction,
+        MetricsDailyKPI, PipelineHealth
+    )
+
     # Create all tables
     Base.metadata.create_all(bind=test_engine)
     yield
@@ -54,4 +57,3 @@ def client(db_session):
     app.dependency_overrides[get_db] = override_get_db
     yield TestClient(app)
     app.dependency_overrides.clear()
-
