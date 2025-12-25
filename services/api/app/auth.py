@@ -4,9 +4,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
 from app.settings import settings
-from app.db import get_db
 
 # Initialize password context with bcrypt, handling potential bcrypt issues
 try:
