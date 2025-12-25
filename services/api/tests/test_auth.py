@@ -1,4 +1,3 @@
-import pytest
 # Use client fixture from conftest.py
 
 
@@ -37,12 +36,10 @@ def test_protected_endpoint_with_token(client):
         json={"username": "admin", "password": "admin"}
     )
     token = login_response.json()["access_token"]
-    
+
     # Access protected endpoint
     response = client.get(
         "/metrics/overview",
         headers={"Authorization": f"Bearer {token}"}
     )
     assert response.status_code == 200
-
-

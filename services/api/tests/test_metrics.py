@@ -59,5 +59,3 @@ def test_top_products(client, auth_token):
     data = response.json()
     assert "products" in data
     assert isinstance(data["products"], list)
-
-
