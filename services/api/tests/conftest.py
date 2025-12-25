@@ -7,10 +7,16 @@ from app.main import app
 from fastapi.testclient import TestClient
 import os
 
-# Override database URL for testing
-TEST_DATABASE_URL = os.getenv(
-    "TEST_DATABASE_URL",
-    "postgresql://streamforge:streamforge123@localhost:5432/streamforge"
+# Build database URL from environment variables (for CI compatibility)
+POSTGRES_USER = os.getenv("POSTGRES_USER", "streamforge")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "streamforge123")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
+POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
+POSTGRES_DB = os.getenv("POSTGRES_DB", "streamforge")
+
+TEST_DATABASE_URL = (
+    f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@"
+    f"{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 )
 
 # Create test engine
