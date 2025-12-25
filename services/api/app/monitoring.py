@@ -22,6 +22,7 @@ ACTIVE_CONNECTIONS = Gauge(
     'Number of active database connections'
 )
 
+
 # Structured logging setup
 def setup_logging():
     """Setup structured JSON logging"""
