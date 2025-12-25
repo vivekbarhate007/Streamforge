@@ -33,8 +33,31 @@ def setup_database():
         MetricsDailyKPI, PipelineHealth
     )
 
+    # Test database connection
+    from sqlalchemy import text
+    try:
+        with test_engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+    except Exception as e:
+        pytest.fail(f"Failed to connect to test database: {e}")
+
     # Create all tables
     Base.metadata.create_all(bind=test_engine)
+
+    # Verify tables were created
+    with test_engine.connect() as conn:
+        result = conn.execute(
+            "SELECT tablename FROM pg_tables WHERE schemaname = 'public'"
+        )
+        tables = [row[0] for row in result]
+        required_tables = [
+            "fact_events", "fact_transactions", "raw_events",
+            "raw_transactions", "metrics_daily_kpis", "pipeline_health"
+        ]
+        missing = [t for t in required_tables if t not in tables]
+        if missing:
+            pytest.fail(f"Tables not created: {missing}. Found: {tables}")
+
     yield
     # Clean up after all tests
     Base.metadata.drop_all(bind=test_engine)
