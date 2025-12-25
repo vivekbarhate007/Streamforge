@@ -2,11 +2,15 @@ import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 
-client = TestClient(app)
+
+@pytest.fixture
+def client():
+    """Test client fixture"""
+    return TestClient(app)
 
 
 @pytest.fixture
-def auth_token():
+def auth_token(client):
     """Get auth token for tests"""
     response = client.post(
         "/auth/login",
@@ -15,7 +19,7 @@ def auth_token():
     return response.json()["access_token"]
 
 
-def test_overview_metrics(auth_token):
+def test_overview_metrics(client, auth_token):
     """Test overview metrics endpoint"""
     response = client.get(
         "/metrics/overview",
@@ -28,7 +32,7 @@ def test_overview_metrics(auth_token):
     assert "total_revenue" in data
 
 
-def test_events_timeseries(auth_token):
+def test_events_timeseries(client, auth_token):
     """Test events time series endpoint"""
     response = client.get(
         "/metrics/events_timeseries?hours=24",
@@ -40,7 +44,7 @@ def test_events_timeseries(auth_token):
     assert isinstance(data["data"], list)
 
 
-def test_revenue_timeseries(auth_token):
+def test_revenue_timeseries(client, auth_token):
     """Test revenue time series endpoint"""
     response = client.get(
         "/metrics/revenue_timeseries?days=30",
@@ -52,7 +56,7 @@ def test_revenue_timeseries(auth_token):
     assert isinstance(data["data"], list)
 
 
-def test_top_products(auth_token):
+def test_top_products(client, auth_token):
     """Test top products endpoint"""
     response = client.get(
         "/metrics/top_products?limit=10",
@@ -62,4 +66,5 @@ def test_top_products(auth_token):
     data = response.json()
     assert "products" in data
     assert isinstance(data["products"], list)
+
 

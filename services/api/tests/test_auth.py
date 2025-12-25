@@ -2,10 +2,14 @@ import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 
-client = TestClient(app)
+# Use client fixture from conftest.py
+@pytest.fixture
+def client():
+    """Test client fixture"""
+    return TestClient(app)
 
 
-def test_login_success():
+def test_login_success(client):
     """Test successful login"""
     response = client.post(
         "/auth/login",
@@ -17,7 +21,7 @@ def test_login_success():
     assert data["token_type"] == "bearer"
 
 
-def test_login_failure():
+def test_login_failure(client):
     """Test failed login"""
     response = client.post(
         "/auth/login",
@@ -26,13 +30,13 @@ def test_login_failure():
     assert response.status_code == 401
 
 
-def test_protected_endpoint_without_token():
+def test_protected_endpoint_without_token(client):
     """Test accessing protected endpoint without token"""
     response = client.get("/metrics/overview")
     assert response.status_code == 401
 
 
-def test_protected_endpoint_with_token():
+def test_protected_endpoint_with_token(client):
     """Test accessing protected endpoint with token"""
     # Login first
     login_response = client.post(
@@ -47,4 +51,5 @@ def test_protected_endpoint_with_token():
         headers={"Authorization": f"Bearer {token}"}
     )
     assert response.status_code == 200
+
 
