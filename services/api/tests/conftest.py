@@ -47,7 +47,7 @@ def setup_database():
     # Verify tables were created
     with test_engine.connect() as conn:
         result = conn.execute(
-            "SELECT tablename FROM pg_tables WHERE schemaname = 'public'"
+            text("SELECT tablename FROM pg_tables WHERE schemaname = 'public'")
         )
         tables = [row[0] for row in result]
         required_tables = [
